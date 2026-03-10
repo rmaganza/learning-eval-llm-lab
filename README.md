@@ -42,8 +42,8 @@ uv run run-eval run -d reasoning -m gpt-5-mini --max-examples 5
 # Generate report
 uv run run-eval run -d reasoning -m gpt-5-mini --report report.md
 
-# Compare models
-uv run python scripts/compare_models.py run gpt-5-mini,claude-3-5-sonnet-20241022 -d reasoning --max-examples 3 -o compare.html -f html
+# Compare models (use same provider for both; e.g. two OpenAI models)
+uv run python scripts/compare_models.py run gpt-5-mini,gpt-4o -d reasoning --max-examples 3 -o compare.html -f html
 
 # Start API server
 uv run eval-api
