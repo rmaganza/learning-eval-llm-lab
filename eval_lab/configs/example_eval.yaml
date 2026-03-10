@@ -1,0 +1,19 @@
+# Example evaluation config
+# Usage: uv run run-eval run --config eval_lab/configs/example_eval.yaml
+dataset:
+  name: reasoning
+  split: test
+  max_examples: 10
+
+model:
+  model_id: gpt-5-mini
+  temperature: 0.0
+  max_tokens: 256
+
+metrics:
+  - exact_match
+  - f1
+  - latency
+
+runner:
+  concurrency: 4

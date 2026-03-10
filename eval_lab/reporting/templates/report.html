@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Eval Report: {{ dataset_name }}</title>
+</head>
+<body>
+  <h1>{{ dataset_name }} - {{ model_id }}</h1>
+  <p>Examples: {{ total_examples }}, Failed: {{ failed_examples }}</p>
+  <h2>Metrics</h2>
+  <ul>
+  {% for name, score in metric_scores.items() %}
+    <li><strong>{{ name }}:</strong> {{ "%.4f"|format(score) }}</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>

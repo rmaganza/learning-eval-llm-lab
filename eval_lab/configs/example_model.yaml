@@ -1,0 +1,10 @@
+# Example model configs for different providers
+openai:
+  model_id: gpt-5-mini
+  temperature: 0.0
+  max_tokens: 256
+
+huggingface:
+  model_id: meta-llama/Llama-3.2-1B-Instruct
+  temperature: 0.0
+  max_tokens: 256
