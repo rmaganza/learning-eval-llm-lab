@@ -29,8 +29,7 @@ class VLLMAdapter(BaseModelAdapter):
     ) -> None:
         if not _VLLM_AVAILABLE:
             raise ImportError(
-                "vllm is not installed. Install with: pip install vllm "
-                "or uv add 'eval-lab[vllm]'"
+                "vllm is not installed. Install with: pip install vllm or uv add 'eval-lab[vllm]'"
             )
         self.model = model
         self.batch_size = batch_size
@@ -46,9 +45,7 @@ class VLLMAdapter(BaseModelAdapter):
             )
         return self._engine
 
-    def _generate_batch_sync(
-        self, prompts: list[str]
-    ) -> list[tuple[str, float]]:
+    def _generate_batch_sync(self, prompts: list[str]) -> list[tuple[str, float]]:
         if not prompts:
             return []
 
@@ -69,13 +66,9 @@ class VLLMAdapter(BaseModelAdapter):
             results.append((text, per_sample))
         return results
 
-    async def generate(
-        self, prompts: list[str]
-    ) -> AsyncIterator[tuple[str, float]]:
+    async def generate(self, prompts: list[str]) -> AsyncIterator[tuple[str, float]]:
         for i in range(0, len(prompts), self.batch_size):
             batch = prompts[i : i + self.batch_size]
-            results = await asyncio.to_thread(
-                self._generate_batch_sync, batch
-            )
+            results = await asyncio.to_thread(self._generate_batch_sync, batch)
             for text, lat in results:
                 yield text, lat

@@ -38,7 +38,9 @@ class MockMetric(Metric):
     def name(self) -> str:
         return "mock"
 
-    def compute(self, predicted, expected, example_id, config=None, extra_context=None) -> MetricResult:
+    def compute(
+        self, predicted, expected, example_id, config=None, extra_context=None
+    ) -> MetricResult:
         return MetricResult(
             metric_name=self.name,
             score=1.0 if predicted == expected else 0.0,

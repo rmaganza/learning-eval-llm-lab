@@ -47,13 +47,13 @@ INSTRUCTION_ITEMS: list[InstructionItem] = [
     ),
     InstructionItem(
         id="i5",
-        instruction="Format as JSON: { \"pros\": [...], \"cons\": [...] }. Each list has string items.",
+        instruction='Format as JSON: { "pros": [...], "cons": [...] }. Each list has string items.',
         input_data="Pros: fast, reliable. Cons: expensive, heavy.",
         expected_schema={"pros": "array", "cons": "array"},
     ),
     InstructionItem(
         id="i6",
-        instruction="Output valid JSON only. Structure: { \"answer\": <boolean>, \"confidence\": <0-1> }.",
+        instruction='Output valid JSON only. Structure: { "answer": <boolean>, "confidence": <0-1> }.',
         input_data="Is the following claim supported? 'All mammals lay eggs.'",
         expected_schema={"answer": "boolean", "confidence": "number"},
     ),
@@ -65,7 +65,7 @@ INSTRUCTION_ITEMS: list[InstructionItem] = [
     ),
     InstructionItem(
         id="i8",
-        instruction="Return JSON: { \"steps\": [ordered list of steps as strings], \"total_time_minutes\": number }.",
+        instruction='Return JSON: { "steps": [ordered list of steps as strings], "total_time_minutes": number }.',
         input_data="First boil water. Then add pasta and cook for 10 minutes. Drain and serve. Total time about 15 minutes.",
         expected_schema={"steps": "array", "total_time_minutes": "number"},
     ),

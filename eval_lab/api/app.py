@@ -63,7 +63,9 @@ def create_app() -> FastAPI:
         except KeyError as e:
             raise HTTPException(status_code=404, detail=str(e))
 
-        store = get_store() if os.environ.get("EVAL_LAB_PERSIST", "true").lower() == "true" else None
+        store = (
+            get_store() if os.environ.get("EVAL_LAB_PERSIST", "true").lower() == "true" else None
+        )
         try:
             result = await run_evaluation(
                 body.dataset,

@@ -29,9 +29,7 @@ def token_f1(prediction: str, reference: str) -> float:
     return 2 * prec * rec / (prec + rec)
 
 
-def token_f1_scores(
-    predictions: list[str], references: list[str]
-) -> list[float]:
+def token_f1_scores(predictions: list[str], references: list[str]) -> list[float]:
     """Compute token F1 for each (pred, ref) pair."""
     if len(predictions) != len(references):
         return []
@@ -73,11 +71,7 @@ class F1Metric(Metric):
         overlap = pred_tokens & exp_tokens
         precision = len(overlap) / len(pred_tokens) if pred_tokens else 0.0
         recall = len(overlap) / len(exp_tokens)
-        score = (
-            2 * precision * recall / (precision + recall)
-            if (precision + recall) > 0
-            else 0.0
-        )
+        score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
         return MetricResult(
             metric_name=self.name,
             score=score,

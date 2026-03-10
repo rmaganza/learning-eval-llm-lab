@@ -17,9 +17,7 @@ def comparison_markdown(
     if not results:
         return "# Model Comparison\n\nNo runs to compare."
     dataset = dataset_name or results[0].dataset_name
-    metric_names = sorted(
-        set(m for r in results for m in r.metric_scores.keys())
-    )
+    metric_names = sorted(set(m for r in results for m in r.metric_scores.keys()))
     lines = [
         f"# Model Comparison: {dataset}",
         "",
@@ -41,7 +39,10 @@ def comparison_markdown(
             if summary.get("slices"):
                 lines.append(f"### {r.model_id}")
                 for cat, scores in summary["slices"].items():
-                    lines.append(f"- **{cat}** (n={summary['slice_counts'].get(cat, 0)}): " + ", ".join(f"{k}={v:.3f}" for k, v in scores.items()))
+                    lines.append(
+                        f"- **{cat}** (n={summary['slice_counts'].get(cat, 0)}): "
+                        + ", ".join(f"{k}={v:.3f}" for k, v in scores.items())
+                    )
                 lines.append("")
 
     return "\n".join(lines)
@@ -56,9 +57,7 @@ def comparison_html(
     if not results:
         return "<html><body><h1>No runs to compare</h1></body></html>"
     dataset = dataset_name or results[0].dataset_name
-    metric_names = sorted(
-        set(m for r in results for m in r.metric_scores.keys())
-    )
+    metric_names = sorted(set(m for r in results for m in r.metric_scores.keys()))
     rows = [
         {
             "run_id": r.run_id,

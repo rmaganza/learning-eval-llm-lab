@@ -33,6 +33,7 @@ class DatasetRegistry:
     @classmethod
     def _make_task_dataset_class(cls, task_name: str) -> type[EvalDataset]:
         from eval_lab.datasets.task_adapter import TaskDatasetAdapter
+
         reg = cls
 
         class _TaskDataset(TaskDatasetAdapter):

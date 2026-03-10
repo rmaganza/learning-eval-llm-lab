@@ -28,6 +28,7 @@ def _item_model_for_task(task_name: str) -> type | None:
         from eval_lab.datasets.tasks.instruction_following import InstructionItem
         from eval_lab.datasets.tasks.reasoning import ReasoningItem
         from eval_lab.datasets.tasks.summarization import SummarizationItem
+
         mapping = {
             "reasoning": ReasoningItem,
             "summarization": SummarizationItem,
@@ -45,6 +46,7 @@ def _to_expected_str(val: object) -> str:
         return ""
     if isinstance(val, (dict, list)):
         import json
+
         return json.dumps(val, sort_keys=True)
     return str(val).strip().lower()
 
@@ -76,7 +78,9 @@ class TaskDatasetAdapter(EvalDataset):
                 )
                 ex_id = getattr(item, "id", str(count))
                 meta = getattr(item, "metadata", None) or {}
-                category = (meta.get("category") if isinstance(meta, dict) else None) or self._task.name
+                category = (
+                    meta.get("category") if isinstance(meta, dict) else None
+                ) or self._task.name
                 item_dump = item.model_dump() if hasattr(item, "model_dump") else {"id": ex_id}
                 self._examples.append(
                     EvalExample(

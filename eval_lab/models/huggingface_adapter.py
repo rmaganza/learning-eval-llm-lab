@@ -37,9 +37,7 @@ class HuggingFaceAdapter(BaseModelAdapter):
         )
         self._model.eval()
 
-    def _prepare_batch(
-        self, prompts: list[str]
-    ) -> tuple[dict, list[int]]:
+    def _prepare_batch(self, prompts: list[str]) -> tuple[dict, list[int]]:
         """Tokenize and truncate. Returns inputs and prompt lengths per sample."""
         if not prompts:
             return {}, []
@@ -68,9 +66,7 @@ class HuggingFaceAdapter(BaseModelAdapter):
 
         return inputs, prompt_lens
 
-    def _generate_batch_sync(
-        self, prompts: list[str]
-    ) -> list[tuple[str, float]]:
+    def _generate_batch_sync(self, prompts: list[str]) -> list[tuple[str, float]]:
         if self._model is None or self._tokenizer is None:
             self._load()
 
@@ -101,16 +97,12 @@ class HuggingFaceAdapter(BaseModelAdapter):
 
         return results
 
-    async def generate(
-        self, prompts: list[str]
-    ) -> AsyncIterator[tuple[str, float]]:
+    async def generate(self, prompts: list[str]) -> AsyncIterator[tuple[str, float]]:
         if not prompts:
             return
 
         for i in range(0, len(prompts), self.batch_size):
             batch = prompts[i : i + self.batch_size]
-            results = await asyncio.to_thread(
-                self._generate_batch_sync, batch
-            )
+            results = await asyncio.to_thread(self._generate_batch_sync, batch)
             for text, lat in results:
                 yield text, lat

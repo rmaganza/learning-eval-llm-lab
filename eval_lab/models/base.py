@@ -10,9 +10,7 @@ from pydantic import BaseModel, Field
 class BaseModelAdapter(Protocol):
     """Protocol for model adapters that generate text from prompts."""
 
-    async def generate(
-        self, prompts: list[str]
-    ) -> AsyncIterator[tuple[str, float]]:
+    async def generate(self, prompts: list[str]) -> AsyncIterator[tuple[str, float]]:
         """
         Generate completions for a batch of prompts.
 
@@ -45,9 +43,7 @@ class ModelAdapter:
     Wraps BaseModelAdapter to support single-prompt generate(prompt, config).
     """
 
-    async def generate(
-        self, prompt: str, config: ModelConfig
-    ) -> ModelResponse:
+    async def generate(self, prompt: str, config: ModelConfig) -> ModelResponse:
         """Generate for a single prompt. Override or use from_batch_adapter."""
         raise NotImplementedError
 
@@ -56,9 +52,7 @@ class ModelAdapter:
         pass
 
     @classmethod
-    def from_batch_adapter(
-        cls, adapter: BaseModelAdapter, config: ModelConfig
-    ) -> "ModelAdapter":
+    def from_batch_adapter(cls, adapter: BaseModelAdapter, config: ModelConfig) -> "ModelAdapter":
         """Wrap a BaseModelAdapter for runner compatibility."""
         return _BatchAdapterWrapper(adapter, config)
 
@@ -68,9 +62,7 @@ class _BatchAdapterWrapper(ModelAdapter):
         self._adapter = adapter
         self._config = config
 
-    async def generate(
-        self, prompt: str, config: ModelConfig
-    ) -> ModelResponse:
+    async def generate(self, prompt: str, config: ModelConfig) -> ModelResponse:
         texts = []
         lats = []
         async for text, lat in self._adapter.generate([prompt]):

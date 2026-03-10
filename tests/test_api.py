@@ -1,6 +1,7 @@
 """Tests for the FastAPI application."""
 
 import asyncio
+import importlib
 import os
 from unittest.mock import AsyncMock, patch
 
@@ -10,6 +11,9 @@ from fastapi.testclient import TestClient
 from eval_lab.api.app import app
 from eval_lab.runners.async_runner import EvalRunResult
 from eval_lab.storage.store import get_store
+
+# Module where run_evaluation is used (patch must target this, not eval_lab.run)
+_app_module = importlib.import_module("eval_lab.api.app")
 
 
 @pytest.fixture
@@ -90,7 +94,7 @@ def test_run_evaluation_success(client: TestClient) -> None:
         total_examples=5,
         failed_examples=0,
     )
-    with patch("eval_lab.api.app.run_evaluation", new_callable=AsyncMock) as mock_run:
+    with patch.object(_app_module, "run_evaluation", new_callable=AsyncMock) as mock_run:
         mock_run.return_value = mock_result
         resp = client.post(
             "/eval/run",

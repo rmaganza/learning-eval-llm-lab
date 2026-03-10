@@ -43,7 +43,9 @@ def slice_summary(result: EvalRunResult) -> dict:
         "overall": result.metric_scores,
         "slices": slices,
         "slice_counts": {
-            cat: len([e for e in result.per_example_results if (e.get("category") or "_default") == cat])
+            cat: len(
+                [e for e in result.per_example_results if (e.get("category") or "_default") == cat]
+            )
             for cat in slices
         },
     }

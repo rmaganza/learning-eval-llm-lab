@@ -32,9 +32,7 @@ def _parse_binary(raw: str) -> float:
     return 0.0
 
 
-def _build_judge_prompt(
-    prompt: str, output: str, reference: str | None, mode: JudgeMode
-) -> str:
+def _build_judge_prompt(prompt: str, output: str, reference: str | None, mode: JudgeMode) -> str:
     ref_part = f"\nReference: {reference}" if reference else ""
     instr = (
         "Score the response from 1 (worst) to 5 (best). Reply with only the number."
@@ -57,10 +55,7 @@ async def llm_judge(
     mode: 'numeric' (1-5) or 'binary' (pass/fail).
     """
     refs = references if references and len(references) == len(prompts) else [None] * len(prompts)
-    judge_prompts = [
-        _build_judge_prompt(p, o, r, mode)
-        for p, o, r in zip(prompts, outputs, refs)
-    ]
+    judge_prompts = [_build_judge_prompt(p, o, r, mode) for p, o, r in zip(prompts, outputs, refs)]
     parse_fn = _parse_numeric if mode == "numeric" else _parse_binary
     async for raw, lat in model.generate(judge_prompts):
         yield parse_fn(raw), lat
@@ -81,11 +76,7 @@ class LLMJudgeMetric(Metric):
         config: MetricConfig | None = None,
         extra_context: dict | None = None,
     ) -> MetricResult:
-        score = (
-            extra_context.get("llm_judge_score")
-            if extra_context
-            else None
-        )
+        score = extra_context.get("llm_judge_score") if extra_context else None
         if score is None:
             raise MetricComputeError(
                 "llm_judge requires judge_adapter to be passed to the runner; "

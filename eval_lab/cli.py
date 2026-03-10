@@ -22,14 +22,28 @@ def _should_persist() -> bool:
 def run(
     dataset: str = typer.Option("example", "--dataset", "-d", help="Dataset or task name"),
     model: str = typer.Option("gpt-5-mini", "--model", "-m", help="Model ID (OpenAI-compatible)"),
-    max_examples: int | None = typer.Option(None, "--max-examples", help="Cap examples for quick runs"),
-    concurrency: int = typer.Option(4, "--concurrency", "-c", help="Max concurrent inference requests"),
-    metrics: str = typer.Option("exact_match,f1,latency", "--metrics", help="Comma-separated metrics"),
-    judge_model: str | None = typer.Option(None, "--judge-model", help="Model for LLM-as-judge (enables llm_judge)"),
-    judge_mode: str = typer.Option("numeric", "--judge-mode", help="Judge mode: numeric (1-5) or binary (pass/fail)"),
-    config_file: str | None = typer.Option(None, "--config", help="Path to YAML config (overrides CLI args)"),
+    max_examples: int | None = typer.Option(
+        None, "--max-examples", help="Cap examples for quick runs"
+    ),
+    concurrency: int = typer.Option(
+        4, "--concurrency", "-c", help="Max concurrent inference requests"
+    ),
+    metrics: str = typer.Option(
+        "exact_match,f1,latency", "--metrics", help="Comma-separated metrics"
+    ),
+    judge_model: str | None = typer.Option(
+        None, "--judge-model", help="Model for LLM-as-judge (enables llm_judge)"
+    ),
+    judge_mode: str = typer.Option(
+        "numeric", "--judge-mode", help="Judge mode: numeric (1-5) or binary (pass/fail)"
+    ),
+    config_file: str | None = typer.Option(
+        None, "--config", help="Path to YAML config (overrides CLI args)"
+    ),
     no_persist: bool = typer.Option(False, "--no-persist", help="Skip saving results to DB"),
-    report: str | None = typer.Option(None, "--report", "-r", help="Output path for report (.md or .html)"),
+    report: str | None = typer.Option(
+        None, "--report", "-r", help="Output path for report (.md or .html)"
+    ),
 ) -> None:
     """Run evaluation on a dataset."""
     metric_names = [m.strip() for m in metrics.split(",") if m.strip()]

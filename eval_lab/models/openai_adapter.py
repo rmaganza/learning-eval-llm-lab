@@ -69,9 +69,7 @@ class OpenAIAdapter(ModelAdapter, BaseModelAdapter):
                 error=f"{type(e).__name__}: {e}",
             )
 
-    async def _generate_batch(
-        self, prompts: list[str]
-    ) -> AsyncIterator[tuple[str, float]]:
+    async def _generate_batch(self, prompts: list[str]) -> AsyncIterator[tuple[str, float]]:
         client, model, max_tok = self._client_and_params(None)
         for p in prompts:
             p = "" if p is None else p

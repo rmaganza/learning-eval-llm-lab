@@ -98,13 +98,14 @@ class AsyncEvalRunner:
                 extra_context = {
                     "latency_seconds": response.latency_seconds,
                 }
-                if (
-                    "llm_judge" in config.metric_names
-                    and self._judge_adapter is not None
-                ):
+                if "llm_judge" in config.metric_names and self._judge_adapter is not None:
                     from eval_lab.metrics.llm_judge import llm_judge
 
-                    mode = config.judge_mode if config.judge_mode in ("numeric", "binary") else "numeric"
+                    mode = (
+                        config.judge_mode
+                        if config.judge_mode in ("numeric", "binary")
+                        else "numeric"
+                    )
                     judge_score = 0.0
                     async for s, _ in llm_judge(
                         self._judge_adapter,
@@ -140,10 +141,12 @@ class AsyncEvalRunner:
         outcomes = await asyncio.gather(*tasks, return_exceptions=True)
         for i, outcome in enumerate(outcomes):
             if isinstance(outcome, Exception):
-                failed_errors.append({
-                    "example_id": examples[i].example_id,
-                    "error": f"{type(outcome).__name__}: {outcome}",
-                })
+                failed_errors.append(
+                    {
+                        "example_id": examples[i].example_id,
+                        "error": f"{type(outcome).__name__}: {outcome}",
+                    }
+                )
                 continue
             if outcome is not None:
                 if "error" in outcome:

@@ -20,9 +20,7 @@ def exact_match(prediction: str, reference: str) -> bool:
     return _normalize(prediction) == _normalize(reference)
 
 
-def exact_match_score(
-    predictions: list[str], references: list[str]
-) -> float:
+def exact_match_score(predictions: list[str], references: list[str]) -> float:
     """Exact match accuracy over lists. Returns 0.0 if empty or length mismatch."""
     if not predictions or not references or len(predictions) != len(references):
         return 0.0

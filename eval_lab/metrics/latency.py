@@ -47,9 +47,7 @@ class LatencyMetric(Metric):
         config: MetricConfig | None = None,
         extra_context: dict | None = None,
     ) -> MetricResult:
-        latency_seconds = (
-            extra_context.get("latency_seconds") if extra_context else None
-        )
+        latency_seconds = extra_context.get("latency_seconds") if extra_context else None
         if latency_seconds is None:
             return MetricResult(
                 metric_name=self.name,
